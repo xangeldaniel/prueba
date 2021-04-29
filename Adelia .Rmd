@@ -1,0 +1,42 @@
+---
+title: "Ejercicio grupal"
+author: "caro"
+date: "29 de abril de 2021"
+output: html_document
+---
+# Cargar datos de Pingus 
+```{r cargar datos, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(datos)
+Pingus<-datos::pinguinos
+```
+
+# Crear el objeto Adelia para filtrar la especie 
+```{r, echo=FALSE}
+Adelia<-Pingus%>%
+filter(especie=='Adelia')
+```
+
+# Verificar que Adelia es un data frame
+```{r, echo=FALSE}
+class(Adelia)
+```
+# Crear el modelo lineal de la relacion entre masa corporal y longitud de aleta
+```{r, echo=FALSE}
+modelo_lineal <- lm (data=Adelia,
+                       masa_corporal_g ~ largo_aleta_mm)
+```
+
+# Mostrar el resultado en tabla del modelo lineal
+```{r, echo=FALSE}
+Tabla<- broom:: tidy(modelo_lineal)
+```
+
+# Graficar el modelo lineal del objeto Adelia
+```{r, echo=FALSE, fig.height=5, warning=FALSE}
+ggplot(Adelia,
+       aes(x=largo_aleta_mm, 
+       y=masa_corporal_g)) +
+       geom_point(aes(color =especie))+
+       geom_smooth(method="lm")
+```
